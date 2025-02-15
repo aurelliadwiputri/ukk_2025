@@ -1,35 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:ukkurl_2025/pelanggan/indexpelanggan.dart';
+import 'package:ukkurl_2025/pelanggan/insertpelanggan.dart';
+import 'package:ukkurl_2025/pelanggan/updatepelanggan.dart';
 import 'package:ukkurl_2025/homepage.dart';
 
-class Addpelanggan extends StatefulWidget {
-  Addpelanggan({super.key});
+class AddPelanggan extends StatefulWidget {
+  AddPelanggan({super.key});
 
   @override
-  State<Addpelanggan> createState() => _AddpelangganState();
+  State<AddPelanggan> createState() => _AddPelangganState();
 }
 
-class _AddpelangganState extends State<Addpelanggan> {
-  // final _pelangganid = TextEditingController();
-  final _namapelanggan = TextEditingController();
+class _AddPelangganState extends State<AddPelanggan> {
+  final _namapelanggan= TextEditingController();
   final _alamat = TextEditingController();
-  final _nomortelepon = TextEditingController();
+  final _nomertelepon = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
   Future<void> langgan() async {
     if (_formKey.currentState!.validate()) {
-      // final String pelangganid = _pelangganid.text;
       final String namapelanggan = _namapelanggan.text;
-      final double alamat = double.parse(_alamat.text); // Konversi ke double
-      final int nomortelepon = int.parse(_nomortelepon.text); // Konversi ke int
+      final String alamat = _alamat.text;
+      final String nomertelepon = _nomertelepon.text;
 
       try {
-        final response = await Supabase.instance.client.from('pelanggan').insert({
-          // 'pelangganid': pelangganid,
-          'namapelanggan': namapelanggan,
-          'alamat': alamat,
-          'nomortelepon': nomortelepon,
-        });
+        final response =
+            await Supabase.instance.client.from('pelanggan').insert(
+          {
+            'namapelanggan': namapelanggan,
+            'alamat': alamat,
+            'nomertelepon': nomertelepon
+          }
+        );
 
         if (response != null) {
           ScaffoldMessenger.of(context).showSnackBar(
@@ -39,7 +42,7 @@ class _AddpelangganState extends State<Addpelanggan> {
           );
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('pelanggan berhasil ditambahkan')),
+            SnackBar(content: Text('Pelanggan berhasil ditambahkan')),
           );
           Navigator.pushReplacement(
             context,
@@ -59,7 +62,7 @@ class _AddpelangganState extends State<Addpelanggan> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.blue,
-        title: Text('Tambah pelanggan'),
+        title: Text('Tambah Pelanggan'),
       ),
       body: Padding(
         padding: EdgeInsets.all(16.0),
@@ -71,13 +74,13 @@ class _AddpelangganState extends State<Addpelanggan> {
               TextFormField(
                 controller: _namapelanggan,
                 decoration: InputDecoration(
-                  labelText: 'Nama pelanggan',
+                  labelText: 'Nama Pelanggan',
                   border: OutlineInputBorder(),
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'nama pelanggan wajib diisi';
-                  } 
+                    return 'Nama wajib diisi';
+                  }
                   return null;
                 },
               ),
@@ -85,32 +88,26 @@ class _AddpelangganState extends State<Addpelanggan> {
               TextFormField(
                 controller: _alamat,
                 decoration: InputDecoration(
-                  labelText: 'alamat',
+                  labelText: 'Alamat',
                   border: OutlineInputBorder(),
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'alamat wajib diisi';
-                  }
-                  if (double.tryParse(value) == null) {
-                    return 'Harus berupa angka';
+                    return 'Alamat wajib diisi';
                   }
                   return null;
                 },
               ),
               SizedBox(height: 16),
               TextFormField(
-                controller: _nomortelepon,
+                controller: _nomertelepon,
                 decoration: InputDecoration(
-                  labelText: 'nomortelepon',
+                  labelText: 'Nomor Telepon',
                   border: OutlineInputBorder(),
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'nomortelepon wajib diisi';
-                  }
-                  if (double.tryParse(value) == null) {
-                    return 'Harus berupa angka';
+                    return 'Nomor telepon wajib diisi';
                   }
                   return null;
                 },

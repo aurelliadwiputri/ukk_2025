@@ -11,10 +11,6 @@ void main() async {
   );
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
-    initialRoute: '/',
-    routes: {
-      '/login': (context) => LoginPage(),
-      '/homepage': (context) => HomePage(),
-    },
+    home: const LoginPage(),
   ));
 }

@@ -1,20 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:ukkurl_2025/pelanggan/indexpelanggan.dart';
+import 'package:ukkurl_2025/pelanggan/insertpelanggan.dart';
+import 'package:ukkurl_2025/pelanggan/updatepelanggan.dart';
 import 'package:ukkurl_2025/homepage.dart';
 
-class Editpelanggan extends StatefulWidget {
-  final int pelangganid;
+class EditPelanggan extends StatefulWidget {
+  final int PelangganID;
 
-  Editpelanggan({Key? key, required this.pelangganid}) : super(key: key);
+  EditPelanggan({Key? key, required this.PelangganID}) : super(key: key);
 
   @override
-  State<Editpelanggan> createState() => _EditpelangganState();
+  State<EditPelanggan> createState() => _EditPelangganState();
 }
 
-class _EditpelangganState extends State<Editpelanggan> {
-  final _namapelanggan= TextEditingController();
-  final _alamat= TextEditingController();
-  final _nomortelepon= TextEditingController();
+class _EditPelangganState extends State<EditPelanggan> {
+  final _namapelanggan = TextEditingController();
+  final _alamat = TextEditingController();
+  final _nomertelepon= TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
   bool isLoading = false;
@@ -22,10 +25,10 @@ class _EditpelangganState extends State<Editpelanggan> {
   @override
   void initState() {
     super.initState();
-    _loadpelangganData();
+    _loadPelangganData();
   }
 
-  Future<void> _loadpelangganData() async {
+  Future<void> _loadPelangganData() async {
     setState(() {
       isLoading = true;
     });
@@ -33,7 +36,7 @@ class _EditpelangganState extends State<Editpelanggan> {
       final data = await Supabase.instance.client
           .from('pelanggan')
           .select()
-          .eq('pelangganid', widget.pelangganid)
+          .eq('pelangganID', widget.PelangganID)
           .single();
 
       if (data == null) {
@@ -42,8 +45,8 @@ class _EditpelangganState extends State<Editpelanggan> {
 
       setState(() {
         _namapelanggan.text = data['namapelanggan'] ?? '';
-         _alamat.text = (data['alamat'] ?? 0).toString();
-        _nomortelepon.text = (data['nomortelepon'] ?? 0).toString();
+        _alamat.text = data['alamat'] ?? '';
+        _nomertelepon.text = data['nomertelepon'] ?? '';
         isLoading = false;
       });
     } catch (e) {
@@ -56,7 +59,7 @@ class _EditpelangganState extends State<Editpelanggan> {
     }
   }
 
-  Future<void> updatepelanggan() async {
+  Future<void> updatePelanggan() async {
     if (_formKey.currentState!.validate()) {
       setState(() {
         isLoading = true;
@@ -64,9 +67,9 @@ class _EditpelangganState extends State<Editpelanggan> {
       try {
         await Supabase.instance.client.from('pelanggan').update({
           'namapelanggan': _namapelanggan.text,
-           'alamat': int.tryParse(_alamat.text) ?? 0, // Konversi String ke int
-          'nomortelepon': int.tryParse(_nomortelepon.text) ?? 0,
-        }).eq('pelangganid', widget.pelangganid);
+          'alamat': _alamat.text,
+          'nomertelepon': _nomertelepon.text,
+        }).eq('pelangganID', widget.PelangganID);
 
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Data pelanggan berhasil diperbarui')),
@@ -88,8 +91,7 @@ class _EditpelangganState extends State<Editpelanggan> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.blue,
-        title: Text('Edit pelanggan'),
+        title: Text('Edit Pelanggan'),
       ),
       body: isLoading
           ? Center(child: CircularProgressIndicator())
@@ -103,12 +105,12 @@ class _EditpelangganState extends State<Editpelanggan> {
                     TextFormField(
                       controller: _namapelanggan,
                       decoration: InputDecoration(
-                        labelText: 'nama pelanggan',
+                        labelText: 'Nama Pelanggan',
                         border: OutlineInputBorder(),
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'nama pelanggan wajib diisi';
+                          return 'Nama wajib diisi';
                         }
                         return null;
                       },
@@ -117,39 +119,36 @@ class _EditpelangganState extends State<Editpelanggan> {
                     TextFormField(
                       controller: _alamat,
                       decoration: InputDecoration(
-                        labelText: 'alamat',
+                        labelText: 'Alamat',
                         border: OutlineInputBorder(),
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'alamat wajib diisi';
-                        }
-                        if (!RegExp(r'^[0-9]+$').hasMatch(value)) {
-                          return 'alamat hanya boleh berisi angka';
+                          return 'Alamat wajib diisi';
                         }
                         return null;
                       },
                     ),
                     SizedBox(height: 16),
                     TextFormField(
-                      controller: _nomortelepon,
+                      controller: _nomertelepon,
                       decoration: InputDecoration(
-                        labelText: 'nomortelepon',
+                        labelText: 'Nomor Telepon',
                         border: OutlineInputBorder(),
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'nomortelepon wajib diisi';
+                          return 'Nomor Telepon wajib diisi';
                         }
                         if (!RegExp(r'^[0-9]+$').hasMatch(value)) {
-                          return 'nomortelepon hanya boleh berisi angka';
+                          return 'Nomor Telepon hanya boleh berisi angka';
                         }
                         return null;
                       },
                     ),
                     SizedBox(height: 16),
                     ElevatedButton(
-                      onPressed: updatepelanggan,
+                      onPressed: updatePelanggan,
                       child: Text('Update'),
                     ),
                   ],
