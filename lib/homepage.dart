@@ -107,7 +107,7 @@ class _HomePageState extends State<HomePage> {
             Center(child: Text('Detail Penjual Content')),
             PelangganTab(),
             ProdukTab(),
-            Center(child: Text('Detail Penjual Content')),
+            Center(child: Text('Penjual Content')),
           ],
         ),
       ),
