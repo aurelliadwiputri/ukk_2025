@@ -77,6 +77,13 @@ class _LoginPageState extends State<LoginPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             const SizedBox(height: 60),
+            Center(
+              child: Image.network(
+                'assets/kmrt4.jpg',
+                height: 250,
+                width: 450,
+              ),
+            ),
             Expanded(
               child: Container(
                 decoration: const BoxDecoration(
@@ -168,4 +175,3 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 }
-

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:ukkurl_2025/detailpenjualan/indexdetail.dart';
 import 'package:ukkurl_2025/login.dart';
 import 'package:ukkurl_2025/main.dart';
 import 'package:ukkurl_2025/pelanggan/indexpelanggan.dart';
+import 'package:ukkurl_2025/penjualan/indexpenjualan.dart';
 import 'package:ukkurl_2025/produk/indexproduk.dart';
 
 class HomePage extends StatefulWidget {
@@ -104,10 +106,10 @@ class _HomePageState extends State<HomePage> {
         ),
         body: TabBarView(
           children: [
-            Center(child: Text('Detail Penjual Content')),
+            detailTab(),
             PelangganTab(),
             ProdukTab(),
-            Center(child: Text('Penjual Content')),
+            PenjualanTab(),
           ],
         ),
       ),

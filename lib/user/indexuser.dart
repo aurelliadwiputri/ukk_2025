@@ -2,111 +2,108 @@ import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:ukkurl_2025/user/insertuser.dart';
 import 'package:ukkurl_2025/user/updateuser.dart';
+import 'package:ukkurl_2025/user/indexuser.dart';
 
-class Indexuser extends StatefulWidget {
-  const Indexuser({super.key});
+class IndexUser extends StatefulWidget {
+  const IndexUser({super.key});
 
   @override
-  State<Indexuser> createState() => _IndexuserState();
+  State<IndexUser> createState() => _IndexUserState();
 }
 
-class _IndexuserState extends State<Indexuser> {
-  List<Map<String, dynamic>> user = [];
+class _IndexUserState extends State<IndexUser> {
+  List<Map<String, dynamic>> users = [];
 
   @override
   void initState() {
     super.initState();
-    User();
+    fetchUsers();
   }
 
-  Future<void> deleteuser(int id) async {
+  Future<void> deleteUser(int id) async {
     try {
       await Supabase.instance.client.from('user').delete().eq('userid', id);
-      User();
+      fetchUsers();
     } catch (e) {
       ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text('error $e')));
+          .showSnackBar(SnackBar(content: Text('Error: $e')));
     }
   }
 
-  Future<void> User() async {
+  Future<void> fetchUsers() async {
     try {
       final response = await Supabase.instance.client.from('user').select();
       setState(() {
-        user = List<Map<String, dynamic>>.from(response);
+        users = List<Map<String, dynamic>>.from(response);
       });
     } catch (e) {
-      print('error $e');
+      print('Error: $e');
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: user.isEmpty
-          ? Center(
-              child: Text('data user belum ditambahkan'),
+      body: users.isEmpty
+          ? const Center(
+              child: Text('Data user belum ditambahkan'),
             )
           : ListView.builder(
-              itemCount: user.length,
+              itemCount: users.length,
               itemBuilder: (context, index) {
-                final user = User[index];
+                final user = users[index];
                 return Card(
                   elevation: 4,
-                  margin: EdgeInsets.symmetric(vertical: 8),
+                  margin: const EdgeInsets.symmetric(vertical: 8),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Padding(
-                    padding: EdgeInsets.all(8),
+                    padding: const EdgeInsets.all(8),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                            'username: ${user['username'] ?? 'tidak tersedia'}'),
-                        Text(
-                            'password: ${user['password'] ?? 'tidak tersedia'}'),
-                        Text('role: ${user['role'] ?? 'tidak tersedia'}'),
+                        Text('Username: ${user['username'] ?? 'Tidak tersedia'}'),
+                        Text('Password: ${user['password'] ?? 'Tidak tersedia'}'),
+                        Text('Role: ${user['role'] ?? 'Tidak tersedia'}'),
                         Row(
                           children: [
                             IconButton(
                                 onPressed: () {
                                   final userid = user['userid'];
-                                  if (userid != null && userid != 0) {
+                                  if (userid != null) {
                                     Navigator.pushReplacement(
                                         context,
                                         MaterialPageRoute(
-                                            builder: (context) =>
-                                                Updateuser(userid: userid)));
+                                            builder: (context) => UpdateUser(userid: userid)));
                                   }
                                 },
-                                icon: Icon(Icons.edit)),
+                                icon: const Icon(Icons.edit)),
                             IconButton(
                                 onPressed: () {
                                   showDialog(
                                       context: context,
-                                      builder: (BuildContext) {
+                                      builder: (context) {
                                         return AlertDialog(
-                                          title: Text('hapus pelanggan'),
-                                          content: Text(
-                                              'apakah anda yakin menghapus user ini?'),
+                                          title: const Text('Hapus User'),
+                                          content: const Text('Apakah Anda yakin menghapus user ini?'),
                                           actions: [
                                             ElevatedButton(
                                                 onPressed: () {
                                                   Navigator.pop(context);
                                                 },
-                                                child: Text('batal')),
+                                                child: const Text('Batal')),
                                             ElevatedButton(
                                                 onPressed: () {
-                                                  deleteuser(user['userid']);
+                                                  deleteUser(user['userid']);
                                                   Navigator.pop(context);
                                                 },
-                                                child: Text('hapus')),
+                                                child: const Text('Hapus')),
                                           ],
                                         );
                                       });
                                 },
-                                icon: Icon(Icons.delete)),
+                                icon: const Icon(Icons.delete)),
                           ],
                         )
                       ],
@@ -118,9 +115,9 @@ class _IndexuserState extends State<Indexuser> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.pushReplacement(
-              context, MaterialPageRoute(builder: (context) => Insertuser()));
+              context, MaterialPageRoute(builder: (context) => const Insertuser()));
         },
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
       ),
     );
   }

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:ukkurl_2025/homepage.dart';
+import 'package:ukkurl_2025/user/indexuser.dart';
+import 'package:ukkurl_2025/user/updateuser.dart';
+import 'package:ukkurl_2025/user/insertuser.dart';
 
 class Insertuser extends StatefulWidget {
   const Insertuser({super.key});
