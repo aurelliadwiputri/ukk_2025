@@ -90,9 +90,9 @@ class _PenjualanTabState extends State<PenjualanTab> {
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
           var sales = await Navigator.of(context).push(
-            MaterialPageRoute(builder: (context) => Addpenjualan()),
-          );
-          if (sales == true) fetchpenjualan();
+           MaterialPageRoute(builder: (context) => AddPenjualan()),  // nanti kalo bikin class di file insert harus Addpenjualan
+           );
+           if (sales == true) fetchpenjualan();
         },
         child: const Icon(Icons.add, color: Colors.black),
       ),

@@ -30,6 +30,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  # intl: 0.18.0
   # dropdown_textfield: 1.1.1
   # loading_animate_widget: 1.1.0
 

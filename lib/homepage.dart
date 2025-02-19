@@ -5,6 +5,7 @@ import 'package:ukkurl_2025/main.dart';
 import 'package:ukkurl_2025/pelanggan/indexpelanggan.dart';
 import 'package:ukkurl_2025/penjualan/indexpenjualan.dart';
 import 'package:ukkurl_2025/produk/indexproduk.dart';
+import 'package:ukkurl_2025/user/indexuser.dart';
 
 class HomePage extends StatefulWidget {
   //membuat GlobalKey untuk Sfaffold
@@ -106,10 +107,11 @@ class _HomePageState extends State<HomePage> {
         ),
         body: TabBarView(
           children: [
-            detailTab(),
+            IndexDetail(),
             PelangganTab(),
             ProdukTab(),
             PenjualanTab(),
+            IndexUserTab(),
           ],
         ),
       ),

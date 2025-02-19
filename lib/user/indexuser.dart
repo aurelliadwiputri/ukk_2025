@@ -4,14 +4,14 @@ import 'package:ukkurl_2025/user/insertuser.dart';
 import 'package:ukkurl_2025/user/updateuser.dart';
 import 'package:ukkurl_2025/user/indexuser.dart';
 
-class IndexUser extends StatefulWidget {
-  const IndexUser({super.key});
+class IndexUserTab extends StatefulWidget {
+  const IndexUserTab({super.key});
 
   @override
-  State<IndexUser> createState() => _IndexUserState();
+  State<IndexUserTab> createState() => _IndexUserState();
 }
 
-class _IndexUserState extends State<IndexUser> {
+class _IndexUserState extends State<IndexUserTab> {
   List<Map<String, dynamic>> users = [];
 
   @override
